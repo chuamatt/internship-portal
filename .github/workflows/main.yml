@@ -43,11 +43,11 @@ jobs:
           WEBHOOK_ID=${{ github.event.inputs.webhookid }}
           WEBHOOK_TOKEN=${{ github.event.inputs.webhooktoken }}
           python3 webhook.py
-      - name: stage changed files
+      - name: Stage changed files
         run: git add interns.json
-      - name: commit changed files
+      - name: Commit changed files
         run: git commit -m "Update interns.json via Github Actions"
-      - name: fetch from main
+      - name: Fetch from main
         run: git fetch origin main
-      - name: push code to main
+      - name: Push code to main
         run: git push origin HEAD:main
