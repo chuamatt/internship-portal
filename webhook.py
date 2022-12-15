@@ -62,6 +62,9 @@ try:
     # Parse JSON response and store list of jobs
     jobs_list = json.loads(resp.text)
     jobs_list = jobs_list.get("jobs")
+    if jobs_list is None:
+        logging.error("No jobs found. Please check your IntsPortal Auth Cookie and try again.")
+        exit(1)
 except requests.ConnectionError:
     # Handle ConnectionError
     logging.error("There was a problem with the network connection. Please try again later.")
