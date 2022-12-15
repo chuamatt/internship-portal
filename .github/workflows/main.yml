@@ -22,7 +22,7 @@ on:
 
 
 jobs:
-  run-python-test:
+  post-to-http-output:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -38,5 +38,16 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Execute Test Script
-        run: |
-          COOKIE=${{ github.event.inputs.cookie }} WEBHOOK_ID=${{ github.event.inputs.webhookid }} WEBHOOK_TOKEN=${{ github.event.inputs.webhooktoken }} python3 webhook.py
+        run: >
+          COOKIE=${{ github.event.inputs.cookie }}
+          WEBHOOK_ID=${{ github.event.inputs.webhookid }}
+          WEBHOOK_TOKEN=${{ github.event.inputs.webhooktoken }}
+          python3 webhook.py
+      - name: stage changed files
+        run: git add interns.json
+      - name: commit changed files
+        run: git commit -m "Update interns.json via Github Actions"
+      - name: fetch from main
+        run: git fetch origin main
+      - name: push code to main
+        run: git push origin HEAD:main
