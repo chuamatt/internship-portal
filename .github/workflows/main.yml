@@ -19,6 +19,14 @@ on:
         type: string
         description: Webhook Token
         required: true
+      username:
+        type: string
+        description: Github Username
+        required: true
+      email:
+        type: string
+        description: Github Email
+        required: true
 
 
 jobs:
@@ -46,7 +54,10 @@ jobs:
       - name: Stage changed files
         run: git add interns.json
       - name: Commit changed files
-        run: git commit -m "Update interns.json via Github Actions"
+        run: |
+          git config --global user.name  ${{ github.event.inputs.username }}
+          git config --global user.email ${{ github.event.inputs.email }}
+          git commit -m "Update interns.json via Github Actions"
       - name: Fetch from main
         run: git fetch origin main
       - name: Push code to main
