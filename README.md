@@ -14,15 +14,14 @@
 <br />
 <div align="center">
 
+<a href="https://github.com/chuamatt/internship-portal">
+    <img src="https://i.imgur.com/HQtRKSV.png" alt="screenshot" height="250">
+  </a>
+
   <h3 align="center">Internship Portal Scraper</h3>
 
   <p align="center">
-    Because SP's internship portal is a pain to use and is just calling out to be scraped.
-    <br />
-    <br />
-    <a href="https://github.com/chuamatt/internship-portal/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/chuamatt/internship-portal/issues">Request Feature</a>
+    Because SP's internship portal is a pain to use<br>and is just calling out to be scraped.
   </p>
 </div>
 
