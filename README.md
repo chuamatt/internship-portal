@@ -1,11 +1,14 @@
 <a name="readme-top"></a>
 
 <!-- PROJECT SHIELDS -->
+<div align="center">
+
 [![Python][python-shield]][python-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Workflow][workflow-shield]][workflow-url]
 [![License][license-shield]][license-url]
 
+</div>
 
 <!-- PROJECT LOGO -->
 <br />
