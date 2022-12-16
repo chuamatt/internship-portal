@@ -8,12 +8,14 @@ on:
         required: true
       cookie-auth:
         type: boolean
-        description: I will logout of the IntsPortal to terminate my session and reset my cookie/ token. Failure to do this could result in unauthorised usage of my account.
+        description: I will logout of the IntsPortal to terminate my session and reset my cookie/ token when this workflow is complete. I understand that failure to do this could result in unauthorised usage of my account.
+        required: true
       webhookid:
         type: choice
         description: Webhook ID
         options:
           -  1053298414277906532
+        required: true
       username:
         type: string
         description: Github Username
