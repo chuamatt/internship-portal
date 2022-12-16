@@ -35,17 +35,15 @@ BASE_URL = "https://internship.sp.edu.sg/roboroy/api/v1"
 # Set HTTP headers using CaseInsensitiveDict
 headers = CaseInsensitiveDict()
 headers["cookie"] = os.environ.get("COOKIE")
-# headers["cookie"] = "connect.sid=s%3AhiHeime1REGnydaHCt_bbtJ8RJCHyBHw.9wdRTmk6eR58RB2xjujOM%2F6gwTGqk2L29m9r1Xs4heU"
 
 if "connect.sid=" not in headers["cookie"]:
     headers["cookie"] = "connect.sid=" + headers["cookie"]
 
 # Validate auth cookie using regex
-if re.fullmatch(r"connect\.sid=s%3A.{32}\..{45}", headers["cookie"]) is None:
-    logging.error("Invalid auth cookie")
-    exit(1)
-
-# TODO: Can validate auth cookie using API too
+# if re.fullmatch(r"connect\.sid=s%3A.{32}\..{45}", headers["cookie"]) is None:
+#     logging.error("Invalid auth cookie")
+#     exit(1)
+# Commented out because doesn't seem to be reliable
 
 WEBHOOK_ID = os.environ.get("WEBHOOK_ID")
 WEBHOOK_TOKEN = os.environ.get("WEBHOOK_TOKEN")
