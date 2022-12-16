@@ -6,19 +6,14 @@ on:
         type: string
         description: IntsPortal Auth Cookie
         required: true
-      platform:
-        type: choice
-        description: Output Platform
-        options:
-          -  Discord Webhook
+      cookie-auth:
+        type: boolean
+        description: I will logout of the IntsPortal to terminate my session and reset my cookie/ token. Failure to do this could result in unauthorised usage of my account.
       webhookid:
-        type: string
+        type: choice
         description: Webhook ID
-        required: true
-      webhooktoken:
-        type: string
-        description: Webhook Token
-        required: true
+        options:
+          -  1053298414277906532
       username:
         type: string
         description: Github Username
@@ -27,6 +22,7 @@ on:
         type: string
         description: Github Email
         required: true
+
 
 
 jobs:
@@ -49,7 +45,7 @@ jobs:
         run: >
           COOKIE=${{ github.event.inputs.cookie }}
           WEBHOOK_ID=${{ github.event.inputs.webhookid }}
-          WEBHOOK_TOKEN=${{ github.event.inputs.webhooktoken }}
+          WEBHOOK_TOKEN=${{ secrets.webhooktoken }}
           python3 webhook.py
       - name: Stage changed files
         run: git add interns.json
