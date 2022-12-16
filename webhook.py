@@ -87,7 +87,7 @@ for i in range(0, len(list_of_mrt)):
     query_string = 'https://developers.onemap.sg/commonapi/search?searchVal=' + str(
         query_address) + '&returnGeom=Y&getAddrDetails=Y'
     resp = requests.get(query_string)
-    logging.info("OneMap HTTP Request Status: %s, URL: %s", resp.status_code, resp.url)
+    logging.info("OneMap HTTP Request Status (%s/%s): %s, URL: %s", i+1, len(list_of_mrt), resp.status_code, resp.url)
 
     data_mrt = json.loads(resp.content)
 
@@ -109,6 +109,8 @@ mrt_location = pd.DataFrame({
     'Longitude': mrt_long
 })
 
+# TODO: Store this dataframe in a file instead of requesting 9999 urls every time
+
 # Distance to nearest MRT
 list_of_dist_mrt = []
 min_dist_mrt = ""
@@ -127,7 +129,7 @@ for lat, long in zip(mrt_lat, mrt_long):
 with open('interns.json', 'r') as interns_file:
     interns = json.load(interns_file)
 
-for job in jobs_list:
+for job_index, job in enumerate(jobs_list, start=1):
     # Pass if no applications
     if job.get("totalApplications") == 0:
         continue
@@ -135,7 +137,7 @@ for job in jobs_list:
     # Get job information
     curr_time_ms = round(time.time() * 1000)
     resp = requests.get(f"{BASE_URL}/jobs/{job.get('_id')}?_={curr_time_ms}&jobId={job.get('_id')}", headers=headers)
-    logging.info("IntsPortal HTTP Request Status: %s, URL: %s", resp.status_code, resp.url)
+    logging.info("IntsPortal HTTP Request Status (%s/%s): %s, URL: %s", job_index, len(jobs_list), resp.status_code, resp.url)
     test1 = json.loads(resp.text)
     test2 = json.loads(resp.text).get("jobs")
     job_details = json.loads(resp.text).get("jobs")[0]
@@ -174,7 +176,7 @@ for job in jobs_list:
     }
 
     # Get list of successful applicants
-    for index, intern_details in enumerate(job_details.get('dashboard').get('hiredApplnsArray')):
+    for app_index, intern_details in enumerate(job_details.get('dashboard').get('hiredApplnsArray'), start=1):
         # It is possible that the details of the intern has been published previously,
         # so compare the intern's ID with the list of interns we have already scraped.
         if int(intern_details.get('applicantStudentProfile').get('studentUniversityId')) in interns:
@@ -182,7 +184,7 @@ for job in jobs_list:
         else:
             job_interns.append(int(intern_details.get('applicantStudentProfile').get('studentUniversityId')))
         webhook_data["embeds"][0]["fields"].append({
-            "name": f"Intern #{index+1}",
+            "name": f"Intern #{app_index}",
             "value": f"{':mens:' if intern_details.get('applicantProfile').get('genderId') == 1 else ':womens:'} **Name:** {intern_details.get('applicantProfile').get('firstName')}\n:email: **Email:** {intern_details.get('applicantProfile').get('email')}\n:id: **ID:** {intern_details.get('applicantStudentProfile').get('studentUniversityId')}\n:date: **Offered:** {datetime.strptime(intern_details.get('applicationData').get('shortlistedDate'), '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%a %d %b %Y')}\n:passport_control: **Residency:** {intern_details.get('applicantProfile').get('residentStatus')}\n{'<:linkedin:1051501235171229776> **LinkedIn:** ' if intern_details.get('applicantProfile').get('linkedin') != None else ''}{intern_details.get('applicantProfile').get('linkedin') if intern_details.get('applicantProfile').get('linkedin') != None else ''}",
             "inline": True
         })
