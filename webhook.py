@@ -23,7 +23,7 @@ from requests.structures import CaseInsensitiveDict
 # In this case, we set the logging level to INFO to filter out DEBUG messages
 logging.basicConfig(
     level=logging.INFO,
-    format="%(levelname)s %(asctime)s.%(msecs)03d PID%(process)d\n%(message)s",
+    format="%(levelname)s %(asctime)s.%(msecs)03d L%(lineno)d PID%(process)d TID%(thread)d\n%(message)s",
     datefmt="%a %d %b %Y %H:%M:%S"
 )
 
