@@ -9,7 +9,6 @@ on:
       cookie-auth:
         type: boolean
         description: I will logout of the IntsPortal to terminate my session and reset my cookie/ token when this workflow is complete. I understand that failure to do this could result in unauthorised usage of my account.
-        required: true
       webhookid:
         type: choice
         description: Webhook ID
