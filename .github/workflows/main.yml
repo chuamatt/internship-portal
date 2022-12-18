@@ -15,16 +15,6 @@ on:
         options:
           -  1053298414277906532
         required: true
-      username:
-        type: string
-        description: Github Username
-        required: true
-      email:
-        type: string
-        description: Github Email
-        required: true
-
-
 
 jobs:
   post-to-http-output:
@@ -47,14 +37,13 @@ jobs:
           WEBHOOK_ID=${{ github.event.inputs.webhookid }}
           WEBHOOK_TOKEN=${{ secrets.webhooktoken }}
           python3 webhook.py
+      - name: Setup git config
+        run: |
+          git config user.name  "GitHub Actions"
+          git config user.email "<>"
       - name: Stage changed files
         run: git add interns.json
       - name: Commit changed files
-        run: |
-          git config --global user.name  ${{ github.event.inputs.username }}
-          git config --global user.email ${{ github.event.inputs.email }}
-          git commit -m "Update interns.json via Github Actions"
-      - name: Fetch from main
-        run: git fetch origin main
+        run: git commit -m "Update interns.json via Github Actions"
       - name: Push code to main
-        run: git push origin HEAD:main
+        run: git push origin main
